@@ -5,4 +5,8 @@ class Knapsack::Subject
     @weight = weight
     @value  = value
   end
+
+  def to_s
+    "weight: #{weight}, value: #{value}"
+  end
 end

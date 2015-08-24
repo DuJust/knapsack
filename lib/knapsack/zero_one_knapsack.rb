@@ -6,14 +6,19 @@ module Knapsack
     end
 
     def pack(volume, subjects)
-      result = Array.new(volume + 1) { 0 }
+      result   = Array.new(volume + 1) { 0 }
+      packages = Array.new(volume + 1) { [] }
 
       subjects.each do |subject|
-        (subject.send(@weight)..volume).reverse_each do |j|
-          result[j] = [result[j-subject.send(@weight)]+subject.send(@value), result[j]].max
+        (subject.send(@weight)..volume).reverse_each do |weight|
+          compare_weight = weight-subject.send(@weight)
+          if compare_weight > 0 && result[compare_weight] + subject.send(@value) > result[weight]
+            result[weight]   = result[compare_weight] + subject.send(@value)
+            packages[weight] = packages[compare_weight].clone << subject
+          end
         end
       end
-      result[volume]
+      { max_value: result[volume], history: packages[volume] }
     end
   end
 end
