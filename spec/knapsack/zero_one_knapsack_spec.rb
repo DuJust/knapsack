@@ -7,7 +7,14 @@ module Knapsack
 
       let(:zero_one_knapsack) { Knapsack::ZeroOneKnapsack.new(weight: :weight, value: :value) }
 
-      context '#text1' do
+      shared_examples 'a max value of knapsack' do
+        its([:max_value]) { is_expected.to eq(max_value) }
+        it 'history summary should equal max_value' do
+          expect(subject[:history].reduce(0) { |sum, subject| sum + subject.value }).to eq(max_value)
+        end
+      end
+
+      context '#package1' do
         let(:volume) { 1000 }
         let(:list) do
           [
@@ -19,13 +26,11 @@ module Knapsack
           ]
         end
         let(:max_value) { 2099 }
-        let(:history) { [list[0], list[1], list[2]] }
 
-        its([:max_value]) { is_expected.to eq(max_value) }
-        its([:history]) { is_expected.to match_array(history) }
+        it_behaves_like 'a max value of knapsack'
       end
 
-      context '#text2' do
+      context '#package2' do
         let(:volume) { 100 }
         let(:list) do
           [
@@ -37,13 +42,11 @@ module Knapsack
           ]
         end
         let(:max_value) { 133 }
-        let(:history) { [list[3], list[4]] }
 
-        its([:max_value]) { is_expected.to eq(max_value) }
-        its([:history]) { is_expected.to match_array(history) }
+        it_behaves_like 'a max value of knapsack'
       end
 
-      context '#text3' do
+      context '#package3' do
         let(:volume) { 200 }
         let(:list) do
           [
@@ -60,8 +63,7 @@ module Knapsack
         let(:max_value) { 334 }
         let(:history) { [list[0], list[3], list[4], list[5], list[6]] }
 
-        its([:max_value]) { is_expected.to eq(max_value) }
-        its([:history]) { is_expected.to match_array(history) }
+        it_behaves_like 'a max value of knapsack'
       end
     end
   end
