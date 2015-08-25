@@ -14,7 +14,33 @@ module Knapsack
         end
       end
 
-      context '#package1' do
+      context 'when volume is zero' do
+        let(:volume) { 0 }
+        let(:list) do
+          [
+            Knapsack::Subject.new(weight: 79, value: 10),
+            Knapsack::Subject.new(weight: 58, value: 3)
+          ]
+        end
+        let(:max_value) { 0 }
+
+        it_behaves_like 'a max value of knapsack'
+      end
+
+      context 'when the weight of subjects equal volume' do
+        let(:volume) { 50 }
+        let(:list) do
+          [
+            Knapsack::Subject.new(weight: 50, value: 10),
+            Knapsack::Subject.new(weight: 50, value: 3)
+          ]
+        end
+        let(:max_value) { 10 }
+
+        it_behaves_like 'a max value of knapsack'
+      end
+
+      context 'package1' do
         let(:volume) { 1000 }
         let(:list) do
           [
@@ -30,7 +56,7 @@ module Knapsack
         it_behaves_like 'a max value of knapsack'
       end
 
-      context '#package2' do
+      context 'package2' do
         let(:volume) { 100 }
         let(:list) do
           [
@@ -46,7 +72,7 @@ module Knapsack
         it_behaves_like 'a max value of knapsack'
       end
 
-      context '#package3' do
+      context 'package3' do
         let(:volume) { 200 }
         let(:list) do
           [
@@ -61,7 +87,6 @@ module Knapsack
           ]
         end
         let(:max_value) { 334 }
-        let(:history) { [list[0], list[3], list[4], list[5], list[6]] }
 
         it_behaves_like 'a max value of knapsack'
       end
